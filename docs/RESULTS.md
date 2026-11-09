@@ -1,5 +1,15 @@
 # Work Log & Results
 
+## 2026-11-09 — CLI visual play command
+
+- Added a standalone `play` CLI subcommand that creates `SnakeEnv(render_mode="human")`.
+- Added random and fixed relative-action policies (`0=left`, `1=straight`, `2=right`) with a reproducible action-space seed.
+- The interactive episode stops on termination/truncation or when the Pygame window closes. `KeyboardInterrupt` is handled gracefully; the environment is closed in a `finally` block.
+- Kept `play` separate from `smoke`, `train`, and `evaluate`. The command requires the optional visualization dependency and a graphical display.
+- Added unit tests for argument dispatch, random/fixed action selection, window-close lifecycle handling, and KeyboardInterrupt cleanup. Tests use a fake environment; no GUI behavior is simulated.
+- **No tests or runtime commands were executed in this session.** The changes were committed through GitHub. CLI behavior, Pygame rendering, and target-Linux runtime remain unverified.
+
+
 ## 2026-11-09 — Session: align project goal with browser extension use
 
 - Clarified the project's intended end state: train an autonomous agent in a local Slither.io-like simulation, then investigate applying it to the official Slither.io through a browser extension.
