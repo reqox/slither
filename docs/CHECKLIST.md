@@ -18,6 +18,7 @@
 - [x] Реализовать seeded reset.
 - [x] Добавить базовые terminal conditions и reward shaping.
 - [x] Добавить random-agent smoke test.
+- [x] Проверять конечность числовых параметров среды.
 - [ ] Запустить pytest и Gymnasium env checker в целевом окружении.
 - [ ] Проверить поведение при столкновениях и сборе еды на граничных сценариях.
 
