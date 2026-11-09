@@ -20,7 +20,7 @@ class SnakeEnv(gym.Env):
     normalized distances to all four walls, normalized body length.
     """
 
-    metadata = {"render_modes": [], "render_fps": 12}
+    metadata = {"render_modes": ["human"], "render_fps": 12}
 
     def __init__(
         self,
@@ -29,8 +29,14 @@ class SnakeEnv(gym.Env):
         turn_rate: float = 0.22,
         initial_length: int = 8,
         max_steps: int = 2_000,
+        render_mode: str | None = None,
     ) -> None:
         super().__init__()
+        if render_mode not in (None, "human"):
+            raise ValueError("render_mode must be None or human")
+        self.render_mode = render_mode
+        self._screen = None
+        self._clock = None
         if not all(math.isfinite(value) for value in (arena_size, speed, turn_rate)):
             raise ValueError("arena_size, speed, and turn_rate must be finite")
         if arena_size <= 40 or speed <= 0 or turn_rate <= 0:
@@ -77,6 +83,8 @@ class SnakeEnv(gym.Env):
         self._steps = 0
         self._food_eaten = 0
         self._spawn_food()
+        if self.render_mode == "human":
+            self.render()
         return self._observation(), self._info()
 
     def step(self, action: int):
@@ -115,6 +123,8 @@ class SnakeEnv(gym.Env):
 
         info = self._info()
         info["termination_reason"] = reason
+        if self.render_mode == "human":
+            self.render()
         return self._observation(), float(reward), terminated, truncated, info
 
     def _hits_body(self) -> bool:
@@ -162,5 +172,53 @@ class SnakeEnv(gym.Env):
             "food_position": self._food.copy(),
         }
 
+
+    def render(self) -> None:
+        """Draw the current state. Pygame is imported only for human rendering."""
+        if self.render_mode != "human":
+            return
+        try:
+            import pygame
+        except ImportError as exc:
+            raise ImportError(
+                'Human rendering requires Pygame. Install with '
+                'python -m pip install -e ".[visualization]".'
+            ) from exc
+
+        window_size = 800
+        if self._screen is None:
+            pygame.init()
+            self._screen = pygame.display.set_mode((window_size, window_size))
+            pygame.display.set_caption("Slither AI - Local Environment")
+            self._clock = pygame.time.Clock()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.close()
+                return
+
+        scale = window_size / self.arena_size
+        self._screen.fill((22, 27, 34))
+        pygame.draw.rect(self._screen, (95, 105, 115), (0, 0, window_size, window_size), 2)
+        food = tuple(int(v * scale) for v in self._food)
+        pygame.draw.circle(self._screen, (245, 190, 65), food, 7)
+
+        points = [tuple(int(v * scale) for v in point) for point in self._body]
+        if len(points) > 1:
+            pygame.draw.lines(self._screen, (65, 180, 115), False, points, 12)
+        if points:
+            pygame.draw.circle(self._screen, (105, 225, 150), points[0], 8)
+
+        pygame.display.flip()
+        self._clock.tick(self.metadata["render_fps"])
+
     def close(self) -> None:
-        """No external resources are held by the headless environment."""
+        """Release the optional Pygame window."""
+        if self._screen is not None:
+            import pygame
+
+            pygame.display.quit()
+            pygame.quit()
+            self._screen = None
+            self._clock = None
+
