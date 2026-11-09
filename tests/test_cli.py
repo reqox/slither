@@ -77,3 +77,8 @@ def test_play_handles_keyboard_interrupt_and_closes(monkeypatch, capsys):
     cli.play()
     assert env.closed
     assert "keyboard_interrupt" in capsys.readouterr().out
+
+
+def test_smoke_runs(capsys):
+    cli.smoke(seed=2, steps=25)
+    assert "smoke_ok" in capsys.readouterr().out
