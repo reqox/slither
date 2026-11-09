@@ -5,6 +5,8 @@ implementation of the official Slither.io game.
 """
 from __future__ import annotations
 
+import math
+
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
@@ -29,10 +31,12 @@ class SnakeEnv(gym.Env):
         max_steps: int = 2_000,
     ) -> None:
         super().__init__()
+        if not all(math.isfinite(value) for value in (arena_size, speed, turn_rate)):
+            raise ValueError("arena_size, speed, and turn_rate must be finite")
         if arena_size <= 40 or speed <= 0 or turn_rate <= 0:
             raise ValueError("arena_size must exceed 40; speed and turn_rate must be positive")
         if initial_length < 3 or max_steps < 1:
-            raise ValueError("initial_length must be >= 3 and max_steps >= 1")
+            raise ValueError("initial_length must be >= 3 and max_steps must be >= 1")
         self.arena_size = float(arena_size)
         self.speed = float(speed)
         self.turn_rate = float(turn_rate)
