@@ -12,18 +12,21 @@
 - [ ] Настроить lint/test/CI.
 
 ## Environment MVP
-- [ ] Реализовать игровую логику.
-- [ ] Реализовать Gymnasium API.
-- [ ] Проверить observation space/action space.
-- [ ] Проверить детерминизм одинаковых seed.
-- [ ] Проверить terminal conditions и reward.
-- [ ] Запустить random-agent smoke test.
+- [x] Реализовать базовую игровую логику.
+- [x] Реализовать Gymnasium API.
+- [x] Определить observation space/action space.
+- [x] Реализовать seeded reset.
+- [x] Добавить базовые terminal conditions и reward shaping.
+- [x] Добавить random-agent smoke test.
+- [ ] Запустить pytest и Gymnasium env checker в целевом окружении.
+- [ ] Проверить поведение при столкновениях и сборе еды на граничных сценариях.
 
 ## PPO
-- [ ] Обучить baseline.
-- [ ] Сохранить checkpoint и конфиг.
-- [ ] Получить TensorBoard event logs.
-- [ ] Провести evaluation на фиксированных seeds.
+- [x] Добавить базовую CLI-команду PPO train.
+- [x] Добавить сохранение checkpoint и TensorBoard logging.
+- [x] Добавить CLI-команду evaluation на фиксируемых seeds.
+- [ ] Выполнить реальный train run, сохранить checkpoint и TensorBoard event logs.
+- [ ] Сохранять конфиг и per-episode evaluation results.
 - [ ] Сравнить с random/scripted baseline.
 
 ## Перед завершением сессии
