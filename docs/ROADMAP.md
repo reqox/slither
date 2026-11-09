@@ -9,15 +9,16 @@
 - [ ] Зафиксировать воспроизводимую среду разработки и CI.
 
 ## Phase 1 — Local environment MVP
-- [ ] Реализовать Gymnasium-совместимую среду: reset/step/observation/reward/termination.
-- [ ] Добавить детерминированные seeds и unit tests правил.
-- [ ] Добавить smoke test случайного агента.
+- [x] Реализовать первую Gymnasium-совместимую среду: reset/step/observation/reward/termination.
+- [x] Добавить поддержку детерминированных seeds и базовые unit tests.
+- [x] Добавить CLI smoke test случайного агента.
+- [ ] Запустить тесты и smoke test в целевом окружении; исправить выявленные проблемы.
 - [ ] Добавить базовую отрисовку Pygame и режим headless.
 
 ## Phase 2 — PPO baseline
-- [ ] Реализовать обучение PPO на локальной среде.
-- [ ] Добавить TensorBoard, checkpoints и конфиг эксперимента.
-- [ ] Добавить evaluation на фиксированном наборе seeds.
+- [x] Добавить начальную CLI-команду обучения PPO с TensorBoard и сохранением модели.
+- [x] Добавить начальную CLI-команду evaluation на последовательности фиксируемых seeds.
+- [ ] Валидировать PPO train/evaluate end-to-end, сохранять per-episode JSON и конфиг эксперимента.
 - [ ] Ввести best-checkpoint promotion только при статистически осмысленном улучшении.
 
 ## Phase 3 — Environment quality
