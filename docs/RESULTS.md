@@ -1,5 +1,12 @@
 # Work Log & Results
 
+## 2026-11-09 — Session 1: constructor parameter validation
+- Added finite-value validation for `arena_size`, `speed`, and `turn_rate`; `NaN`, positive infinity, and negative infinity now raise `ValueError`.
+- Added 9 parametrized pytest cases covering all three parameters and all three non-finite values.
+- Updated ROADMAP and CHECKLIST to reflect the completed validation change.
+- Runtime tests were not executed in this session: GitHub repository access is available, but the user's Linux runtime is not.
+- Commits: `ca0fb57a7e29dc00a3516d24c25953b9db7d5988` (implementation), `e0a3fa6bef05adc039ce2583881a7eafcc21c5d3` (tests), `ae92d27385f847151b8cd0290d5a8d8efb2670bd` (roadmap), `7fe267d7abccbeaab9affeab8921301356a14df1` (checklist).
+
 ## 2026-11-09 — Session 0: repository recovery and foundation
 - GitHub access to `reqox/slither` restored and repository discovered.
 - Confirmed default branch: `main`.
