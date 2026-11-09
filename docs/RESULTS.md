@@ -1,5 +1,13 @@
 # Work Log & Results
 
+## 2026-11-09 — Session: align project goal with browser extension use
+
+- Clarified the project's intended end state: train an autonomous agent in a local Slither.io-like simulation, then investigate applying it to the official Slither.io through a browser extension.
+- Defined the intended user flow: user opens the game, explicitly starts the extension, the extension supplies visual observations to the perception/model pipeline, and the agent selects actions. Automated input is conditional on current game rules and permitted interfaces.
+- Explicitly prohibited anti-bot bypass, private-protocol manipulation, stealth injection and anti-detection. If automated input is not permitted, the fallback is read-only perception plus human-facing advice.
+- Updated README, PROJECT_CONTEXT, ROADMAP, CHECKLIST, DECISIONS and NEW_CHAT_PROMPT to reflect this target.
+- No runtime tests were run: this session changed project documentation only. No code or training behavior changed.
+
 ## 2026-11-09 — Session 1: constructor parameter validation
 - Added finite-value validation for `arena_size`, `speed`, and `turn_rate`; `NaN`, positive infinity, and negative infinity now raise `ValueError`.
 - Added 9 parametrized pytest cases covering all three parameters and all three non-finite values.
@@ -26,14 +34,14 @@
 | Evaluation score | N/A |
 | Best checkpoint | None |
 
-### Commits created in this session
+### Commits created in initial implementation sessions
 - Initial project/package foundation: `9b9301dbf42d55668a1e9a2d4291b2bbea54d099`.
 - Environment implementation: `d1d662f35dffc5a892c53e5f262bccd54739f88d`.
 - CLI train/evaluate/smoke commands: `c2dbb68af7c70c70c336d80814825bf00f8274e3`.
 - Initial tests: `e48980365d9c023161dea3ced04ead7a727ef085`, `9b49eb2aa4aa31cd77299eeb5028e210eb9b998a`.
 - Observation/reward correction: `b8142f95a3affbca19d27b033bd2e15c39e0a9c9`.
 - Seeded food determinism assertion: `7c970a4a34bb290889c935e7ee96773fc887b6c9`.
-- Latest handoff/documentation update: `e1b56757dca99b749be1b14667c0a21e5f7f1d37` (branch `main`).
+- Documentation updates: `e1b56757dca99b749be1b14667c0a21e5f7f1d37` (earlier handoff state).
 
-### Next action
+### Next action before this documentation alignment
 Install the project in the target Linux environment, run pytest + smoke + Gymnasium checker, fix failures, then run a short PPO training/evaluation trial. Do not claim training progress until actual logs and evaluation artifacts exist.
