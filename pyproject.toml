@@ -1,0 +1,33 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "slither-ai"
+version = "0.1.0"
+description = "Reinforcement-learning research environment for a Slither-like game"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.26",
+  "gymnasium>=0.29,<2",
+  "stable-baselines3>=2.3,<3",
+  "tensorboard>=2.15",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8", "ruff>=0.5"]
+
+[project.scripts]
+slither-ai = "slither_ai.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["slither_ai*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
