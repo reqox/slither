@@ -17,6 +17,7 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.5"]
+visualization = ["pygame>=2.5"]
 
 [project.scripts]
 slither-ai = "slither_ai.cli:main"
