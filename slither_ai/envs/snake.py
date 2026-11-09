@@ -5,8 +5,6 @@ implementation of the official Slither.io game.
 """
 from __future__ import annotations
 
-from collections.abc import Sequence
-
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
@@ -16,8 +14,8 @@ class SnakeEnv(gym.Env):
     """Continuous 2D arena with food, walls, and a single growing snake.
 
     Actions: 0 = turn left, 1 = straight, 2 = turn right.
-    Observation (9 floats): heading cos/sin, food-relative x/y, food distance,
-    normalized distances to four walls, normalized body length.
+    Observation (10 floats): heading cos/sin, food-relative x/y, food distance,
+    normalized distances to all four walls, normalized body length.
     """
 
     metadata = {"render_modes": [], "render_fps": 12}
@@ -31,8 +29,8 @@ class SnakeEnv(gym.Env):
         max_steps: int = 2_000,
     ) -> None:
         super().__init__()
-        if arena_size <= 0 or speed <= 0 or turn_rate <= 0:
-            raise ValueError("arena_size, speed and turn_rate must be positive")
+        if arena_size <= 40 or speed <= 0 or turn_rate <= 0:
+            raise ValueError("arena_size must exceed 40; speed and turn_rate must be positive")
         if initial_length < 3 or max_steps < 1:
             raise ValueError("initial_length must be >= 3 and max_steps >= 1")
         self.arena_size = float(arena_size)
@@ -40,10 +38,12 @@ class SnakeEnv(gym.Env):
         self.turn_rate = float(turn_rate)
         self.initial_length = int(initial_length)
         self.max_steps = int(max_steps)
+        if self.arena_size / 2 <= self.speed * (self.initial_length - 1) + 1:
+            raise ValueError("arena is too small for the initial snake length")
         self.action_space = spaces.Discrete(3)
         self.observation_space = spaces.Box(
-            low=np.array([-1, -1, -1, -1, 0, 0, 0, 0, 0], dtype=np.float32),
-            high=np.ones(9, dtype=np.float32),
+            low=np.array([-1, -1, -1, -1, 0, 0, 0, 0, 0, 0], dtype=np.float32),
+            high=np.ones(10, dtype=np.float32),
             dtype=np.float32,
         )
         self._head = np.zeros(2, dtype=np.float64)
@@ -79,6 +79,7 @@ class SnakeEnv(gym.Env):
         if not self.action_space.contains(action):
             raise ValueError(f"invalid action: {action}")
         self._steps += 1
+        previous_food_distance = float(np.linalg.norm(self._food - self._head))
         if action == 0:
             self._angle += self.turn_rate
         elif action == 2:
@@ -89,7 +90,8 @@ class SnakeEnv(gym.Env):
         self._body.insert(0, self._head.copy())
         self._body = self._body[: self._target_length]
 
-        reward = 0.01
+        current_food_distance = float(np.linalg.norm(self._food - self._head))
+        reward = 0.01 + (previous_food_distance - current_food_distance) * 0.02
         terminated = False
         reason = None
         if np.any(self._head <= 0) or np.any(self._head >= self.arena_size):
@@ -141,6 +143,7 @@ class SnakeEnv(gym.Env):
                 np.clip(self._head[0] / self.arena_size, 0, 1),
                 np.clip((self.arena_size - self._head[0]) / self.arena_size, 0, 1),
                 np.clip(self._head[1] / self.arena_size, 0, 1),
+                np.clip((self.arena_size - self._head[1]) / self.arena_size, 0, 1),
                 np.clip(self._target_length / (self.initial_length + 100), 0, 1),
             ],
             dtype=np.float32,
@@ -152,6 +155,7 @@ class SnakeEnv(gym.Env):
             "food_eaten": self._food_eaten,
             "length": self._target_length,
             "position": self._head.copy(),
+            "food_position": self._food.copy(),
         }
 
     def close(self) -> None:
