@@ -221,4 +221,5 @@ class SnakeEnv(gym.Env):
             pygame.quit()
             self._screen = None
             self._clock = None
+            self.render_mode = None
 
