@@ -73,3 +73,13 @@ Install the project in the target Linux environment, run pytest + smoke + Gymnas
   ```
 - Expected nine-case test selection: `9 passed`; this is an expectation for the user's run, **not an observed result**.
 - Runtime validation status remains **PENDING** until the command output and target environment details are supplied and reviewed.
+
+
+## 2026-11-09 — Optional Pygame renderer implementation
+
+- Added `render_mode="human"` to `SnakeEnv`.
+- Added lazy Pygame import and an 800x800 renderer for the arena, snake, and food.
+- Added the optional `visualization` dependency group; headless use does not import Pygame.
+- Added window close handling.
+- Runtime validation and tests were intentionally deferred at the user's direction. No test or GUI execution result is claimed.
+- Install the optional renderer with `python -m pip install -e ".[visualization]"`.
