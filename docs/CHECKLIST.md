@@ -20,7 +20,7 @@
 - [x] Добавить базовые terminal conditions и reward shaping.
 - [x] Добавить random-agent smoke test.
 - [x] Проверять конечность числовых параметров среды.
-- [ ] Запустить pytest и Gymnasium env checker в целевом окружении.
+- [ ] Запустить pytest и Gymnasium env checker в целевом Linux-окружении (пока не выполнено: нет доступа к shell целевой машины).
 - [ ] Проверить поведение при столкновениях и сборе еды на граничных сценариях.
 
 ## PPO
