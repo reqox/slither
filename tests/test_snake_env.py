@@ -15,6 +15,7 @@ def test_reset_is_deterministic_for_same_seed():
     obs_b, info_b = env.reset(seed=123)
     np.testing.assert_array_equal(obs_a, obs_b)
     np.testing.assert_array_equal(info_a["position"], info_b["position"])
+    np.testing.assert_array_equal(info_a["food_position"], info_b["food_position"])
     assert env._food.tolist()  # food is initialized
 
 
