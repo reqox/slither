@@ -11,6 +11,7 @@
 ## Phase 1 — Local environment MVP
 - [x] Реализовать первую Gymnasium-совместимую среду: reset/step/observation/reward/termination.
 - [x] Добавить поддержку детерминированных seeds и базовые unit tests.
+- [x] Отклонять NaN и бесконечные параметры физики в конструкторе среды.
 - [x] Добавить CLI smoke test случайного агента.
 - [ ] Запустить тесты и smoke test в целевом окружении; исправить выявленные проблемы.
 - [ ] Добавить базовую отрисовку Pygame и режим headless.
