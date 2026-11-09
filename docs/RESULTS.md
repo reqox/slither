@@ -45,3 +45,31 @@
 
 ### Next action before this documentation alignment
 Install the project in the target Linux environment, run pytest + smoke + Gymnasium checker, fix failures, then run a short PPO training/evaluation trial. Do not claim training progress until actual logs and evaluation artifacts exist.
+
+
+## 2026-11-09 — Session: Phase 1 runtime validation preparation (blocked)
+
+- Retrieved the current `main` branch from GitHub; latest observed commit before documentation updates: `c8c4d97c60c18b5d33c77f4bdb780a7af9009bb0`.
+- Confirmed the repository default branch is `main` and the only branch returned by the branch listing is `main`.
+- Reviewed the project documentation, `pyproject.toml`, `slither_ai/envs/snake.py`, `slither_ai/cli.py`, `tests/test_snake_env.py` and `tests/test_cli.py`.
+- Confirmed `tests/test_snake_env.py` calls Gymnasium `check_env(SnakeEnv(), skip_render_check=True)` and contains the nine parametrized non-finite cases (3 parameters × NaN/+inf/-inf).
+- **No runtime commands were executed.** GitHub repository access does not provide a shell on the user's target Linux machine; no SSH credentials or remote execution channel are available in this session. Therefore installation, pytest, CLI smoke, Gymnasium checker, and dependency-version capture remain unverified. No test result is claimed.
+- No source code was changed. No PPO training or out-of-scope implementation was started.
+- Commands prepared for execution on the target Linux host:
+  ```bash
+  cd /path/to/slither
+  git fetch origin
+  git switch main
+  git pull --ff-only origin main
+  git status --short
+  python --version
+  python -m pip --version
+  python -m pip install -e ".[dev]"
+  python -m pip freeze
+  pytest
+  pytest -q tests/test_snake_env.py -k non_finite
+  python -c "from gymnasium.utils.env_checker import check_env; from slither_ai.envs import SnakeEnv; check_env(SnakeEnv(), skip_render_check=True); print('check_env_ok')"
+  python -m slither_ai.cli smoke
+  ```
+- Expected nine-case test selection: `9 passed`; this is an expectation for the user's run, **not an observed result**.
+- Runtime validation status remains **PENDING** until the command output and target environment details are supplied and reviewed.
