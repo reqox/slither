@@ -48,6 +48,26 @@
 
 Если нет доступа к целевой машине, не имитируй запуск. Подготовь пользователю точные команды для выполнения и зафиксируй, что runtime-проверка остаётся pending.
 
+## Команды для пользователя, если у сессии нет доступа к целевому Linux shell
+
+```bash
+cd /path/to/slither
+git fetch origin
+git switch main
+git pull --ff-only origin main
+git status --short
+python --version
+python -m pip --version
+python -m pip install -e ".[dev]"
+python -m pip freeze
+pytest
+pytest -q tests/test_snake_env.py -k non_finite
+python -c "from gymnasium.utils.env_checker import check_env; from slither_ai.envs import SnakeEnv; check_env(SnakeEnv(), skip_render_check=True); print('check_env_ok')"
+python -m slither_ai.cli smoke
+```
+
+Передай в следующую сессию полный вывод этих команд и сведения об ОС/Python. Не трактуй ожидаемые результаты как фактические. Проверка девяти параметризованных случаев должна показать 9 passed; `check_env_ok` должен появиться после успешного checker.
+
 ## Аппаратная информация (устаревающая, перепроверить)
 
 Ранее сообщались: RTX 3050 Mobile, Intel i5-12450H, около 14.8 GiB RAM, NVMe около 477 GB, Ubuntu Server 26.04.1, Docker, NVIDIA Container Toolkit 1.20.1. Не полагайся на эти данные без повторной проверки.
