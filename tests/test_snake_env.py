@@ -38,3 +38,10 @@ def test_invalid_action_rejected():
     env.reset(seed=1)
     with pytest.raises(ValueError):
         env.step(9)
+
+
+@pytest.mark.parametrize("parameter", ["arena_size", "speed", "turn_rate"])
+@pytest.mark.parametrize("value", [float("nan"), float("inf"), float("-inf")])
+def test_non_finite_physics_parameters_rejected(parameter, value):
+    with pytest.raises(ValueError, match="must be finite"):
+        SnakeEnv(**{parameter: value})
