@@ -11,7 +11,7 @@
 ## Сборка
 
 ```bash
-./apps/lexi/scripts/build.sh
+bash apps/lexi/scripts/build.sh
 ```
 
 Результат появится в `apps/lexi/dist/`.
@@ -19,7 +19,7 @@
 ## Запуск
 
 ```bash
-./apps/lexi/scripts/run.sh
+bash apps/lexi/scripts/run.sh
 ```
 
 Скрипт запускает найденный AppImage. При первом запуске он делает файл исполняемым.
