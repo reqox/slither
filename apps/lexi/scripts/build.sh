@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 OUT="${ROOT}/dist-artifacts"
+rm -rf "${OUT}"
 mkdir -p "${OUT}"
 
 if ! command -v docker >/dev/null 2>&1; then
