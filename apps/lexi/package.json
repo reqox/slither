@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "tauri": "tauri",
-    "tauri:build": "npm run build && tauri build --bundles appimage"
+    "tauri:build": "tauri build --bundles appimage"
   },
   "dependencies": {
     "@tauri-apps/api": "2.5.0",
