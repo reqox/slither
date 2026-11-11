@@ -114,7 +114,7 @@ fn create_card(
     }
     let conn = connection(&app)?;
     migrate(&conn)?;
-    let id = format!("{}-{}", now(), std::process::id());
+    let id = format!("{}-{}", SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default().as_nanos(), std::process::id());
     conn.execute(
         "INSERT INTO cards (id, card_type, english, translation, context, notes, next_review_at)
          VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7)",
