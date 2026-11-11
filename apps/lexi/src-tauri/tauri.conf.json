@@ -27,6 +27,11 @@
   "bundle": {
     "active": true,
     "targets": ["appimage"],
+    "linux": {
+      "appimage": {
+        "bundleMediaFramework": false
+      }
+    },
     "category": "Education",
     "shortDescription": "Personal English learning app",
     "longDescription": "A local-first flashcard app for learning English."
