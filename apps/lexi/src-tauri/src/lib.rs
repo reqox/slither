@@ -37,10 +37,7 @@ pub fn run() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![initialize_database])
         .setup(|app| {
-            let handle = app.handle().clone();
-            tauri::async_runtime::block_on(async move {
-                initialize_database(handle).map(|_| ())
-            })?;
+            initialize_database(app.handle().clone()).map_err(std::io::Error::other)?;
             Ok(())
         })
         .run(tauri::generate_context!())
