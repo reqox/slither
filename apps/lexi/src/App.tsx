@@ -1,6 +1,6 @@
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState, type FormEvent } from "react";
 import { invoke } from "@tauri-apps/api/core";
-import { BookOpen, Check, ChevronLeft, Layers3, Plus, Search, Settings2, Trash2, X, RotateCw, Keyboard } from "lucide-react";
+import { BookOpen, Check, Layers3, Plus, Search, Settings2, Trash2, X, RotateCw, Keyboard } from "lucide-react";
 
 type NavItem = "Today" | "Cards" | "Settings";
 type Card = {
