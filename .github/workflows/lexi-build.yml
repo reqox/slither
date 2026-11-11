@@ -29,10 +29,16 @@ jobs:
       - name: Verify artifact exists
         run: |
           test -n "$(find apps/lexi/dist-artifacts -maxdepth 1 -type f -name '*.AppImage' -print -quit)"
+      - name: Generate checksum
+        run: |
+          cd apps/lexi/dist-artifacts
+          sha256sum *.AppImage > SHA256SUMS.txt
       - name: Upload AppImage
         uses: actions/upload-artifact@v4
         with:
           name: Lexi-linux-x86_64-AppImage
-          path: apps/lexi/dist-artifacts/*.AppImage
+          path: |
+            apps/lexi/dist-artifacts/*.AppImage
+            apps/lexi/dist-artifacts/SHA256SUMS.txt
           if-no-files-found: error
           retention-days: 14
