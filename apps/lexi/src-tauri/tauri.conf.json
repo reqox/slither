@@ -20,18 +20,12 @@
         "resizable": true
       }
     ],
-    "security": {
-      "csp": null
-    }
+    "security": { "csp": null }
   },
   "bundle": {
     "active": true,
     "targets": ["appimage"],
-    "linux": {
-      "appimage": {
-        "bundleMediaFramework": false
-      }
-    },
+    "icon": ["icons/icon.png"],
     "category": "Education",
     "shortDescription": "Personal English learning app",
     "longDescription": "A local-first flashcard app for learning English."
