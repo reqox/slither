@@ -1,0 +1,38 @@
+name: Lexi Linux AppImage
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - feature/lexi-docker-foundation
+    paths:
+      - "apps/lexi/**"
+      - ".github/workflows/lexi-build.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  build-appimage:
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Build AppImage in Docker
+        uses: docker/build-push-action@v6
+        with:
+          context: ./apps/lexi
+          file: ./apps/lexi/Dockerfile
+          outputs: type=local,dest=./apps/lexi/dist-artifacts
+      - name: Verify artifact exists
+        run: |
+          test -n "$(find apps/lexi/dist-artifacts -maxdepth 1 -type f -name '*.AppImage' -print -quit)"
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v4
+        with:
+          name: Lexi-linux-x86_64-AppImage
+          path: apps/lexi/dist-artifacts/*.AppImage
+          if-no-files-found: error
+          retention-days: 14
