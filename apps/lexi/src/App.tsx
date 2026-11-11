@@ -20,6 +20,7 @@ export default function App() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [studyIndex, setStudyIndex] = useState(0);
+  const [showAnswer, setShowAnswer] = useState(false);
 
   const refresh = useCallback(async () => {
     try {
@@ -71,7 +72,7 @@ export default function App() {
     const card = dueCards[studyIndex];
     if (!card) return;
     await invoke("review_card", { id: card.id, remembered });
-    await refresh(); setStudyIndex(0);
+    await refresh(); setStudyIndex(0); setShowAnswer(false);
   }
 
   const current = dueCards[studyIndex];
